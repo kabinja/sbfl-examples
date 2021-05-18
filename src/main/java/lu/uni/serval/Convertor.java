@@ -1,47 +1,29 @@
 package lu.uni.serval;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class Convertor {
-    private static final HashMap<Character, Integer> dictionary = new HashMap<>();
-
-    static {
-        dictionary.put('I', 1);
-        dictionary.put('V', 5);
-        dictionary.put('X', 10);
-        dictionary.put('L', 50);
-        dictionary.put('C', 100);
-        dictionary.put('D', 500);
-        dictionary.put('M', 1000);
-    }
-
     public static int romanToInt(String roman) {
-        int sum = 0,  prevInt = 0;
-
-        roman = roman.toUpperCase();
+        int sum = 0, prevInt = 0;
         char prevChar = ' ';
-
+        Map dict = Map.of('I',1, 'V', 5, 'X', 10, 'L', 50, 'C', 100, 'D', 500, 'M', 1000);
+        roman = roman.toUpperCase();
         for (int i = roman.length() - 1; i >= 0; i--) {
             char currentChar = roman.charAt(i);
-
-            if (dictionary.containsKey(prevChar)) {
-                prevInt = dictionary.get(prevChar);
+            if (dict.containsKey(prevChar)) {
+                prevInt = (int)dict.get(prevChar);
             }
-
-            if(!dictionary.containsKey(currentChar)) {
-                return -1;
+            if(!dict.containsKey(currentChar)) {
+               return -1;
             }
-
-            int currentNum = dictionary.get(currentChar);
-            if (currentNum >= prevInt) {
-                sum += currentNum;
+            int currentInt = (int)dict.get(currentChar);
+            if (currentInt >= prevInt) {
+                sum += currentInt;
             } else {
-                sum -= currentNum;
+                sum -= currentInt;
             }
-
             prevChar = currentChar;
         }
-
         return sum;
     }
 }
